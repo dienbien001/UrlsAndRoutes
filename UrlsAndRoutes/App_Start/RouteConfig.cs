@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.Mvc.Routing.Constraints;
 using UrlsAndRoutes.Infrastructure;
 
 namespace UrlsAndRoutes
@@ -15,9 +11,14 @@ namespace UrlsAndRoutes
         {
             routes.MapMvcAttributeRoutes();
 
-            routes.MapRoute("Default", "{controller}/{action}/{id}", 
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                new[] { "UrlsAndRoutes.Controllers" });
+            routes.Add(new Route("SayHello", new CustomRouteHandler()));
+
+            routes.Add(new LegacyRoute(
+                    "~/articles/Windows_3.1_Overview.html",
+                    "~/old/.NET_1.0_Class_Library"));
+
+            routes.MapRoute("MyRoute", "{controller}/{action}/{id}");
+            routes.MapRoute("MyOtherRoute", "App/{action}", new { controller = "Home" });
         }
     }
 }
